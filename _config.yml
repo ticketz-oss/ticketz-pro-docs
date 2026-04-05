@@ -1,0 +1,13 @@
+title: Ticketz PRO Docs
+description: Multilingual documentation for Ticketz PRO integrations, setup, and billing guides.
+baseurl: "/ticketzpro-docs.github.io"
+url: ""
+markdown: kramdown
+permalink: pretty
+kramdown:
+  input: GFM
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

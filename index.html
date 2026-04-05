@@ -1,0 +1,89 @@
+---
+layout: null
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ticketz PRO Docs</title>
+    <meta
+      name="description"
+      content="Multilingual documentation for Ticketz PRO."
+    />
+    <script
+      src="{{ '/assets/js/i18n-redirect.js' | relative_url }}"
+      defer
+    ></script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(252, 211, 77, 0.25),
+            transparent 35%
+          ),
+          linear-gradient(135deg, #fff8ef 0%, #eef6ff 100%);
+        color: #122033;
+      }
+
+      main {
+        max-width: 42rem;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 0.75rem;
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+      }
+
+      p {
+        margin: 0 auto 1.5rem;
+        line-height: 1.6;
+      }
+
+      nav {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      a {
+        color: #122033;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(18, 32, 51, 0.12);
+        border-radius: 999px;
+        padding: 0.85rem 1.2rem;
+        text-decoration: none;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main>
+      <h1>Ticketz PRO Docs</h1>
+      <p>
+        Redirecting to the best language for your browser. If nothing happens,
+        choose one of the versions below.
+      </p>
+      <nav>
+        <a href="{{ '/en/' | relative_url }}">English</a>
+        <a href="{{ '/pt-br/' | relative_url }}">Português</a>
+        <a href="{{ '/es/' | relative_url }}">Español</a>
+      </nav>
+    </main>
+  </body>
+</html>
