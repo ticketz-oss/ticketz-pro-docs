@@ -3,13 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-      {% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}
-    </title>
-    <meta
-      name="description"
-      content="{{ page.description | default: site.description }}"
-    />
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,424 +14,68 @@
     <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}" />
   </head>
   <body>
-    {% assign page_slug = page.slug | default: 'home' %} {% assign en_target =
-    '/en/' %} {% assign pt_target = '/pt-br/' %} {% assign es_target = '/es/' %}
-    {% unless page_slug == 'home' %} {% assign en_target = '/en/' | append:
-    page_slug | append: '/' %} {% assign pt_target = '/pt-br/' | append:
-    page_slug | append: '/' %} {% assign es_target = '/es/' | append: page_slug
-    | append: '/' %} {% endunless %}
+    {% assign page_slug = page.slug | default: 'home' %}
+    {% assign en_target = '/en/' %}
+    {% assign pt_target = '/pt-br/' %}
+    {% assign es_target = '/es/' %}
+    {% unless page_slug == 'home' %}
+      {% assign en_target = '/en/' | append: page_slug | append: '/' %}
+      {% assign pt_target = '/pt-br/' | append: page_slug | append: '/' %}
+      {% assign es_target = '/es/' | append: page_slug | append: '/' %}
+    {% endunless %}
 
     <div class="page-shell">
       <aside class="sidebar">
-        <a
-          class="brand"
-          href="{{ page.lang | prepend: '/' | append: '/' | relative_url }}"
-        >
+        <a class="brand" href="{{ page.lang | prepend: '/' | append: '/' | relative_url }}">
           <span class="brand-mark">TZ</span>
           <span>
             <strong>Ticketz PRO</strong>
             <small>
-              {% if page.lang == 'pt-br' %} Central de documentação {% elsif
-              page.lang == 'es' %} Centro de documentación {% else %}
-              Documentation hub {% endif %}
+              {% if page.lang == 'pt-br' %}
+                Central de documentação
+              {% elsif page.lang == 'es' %}
+                Centro de documentación
+              {% else %}
+                Documentation hub
+              {% endif %}
             </small>
           </span>
         </a>
 
         <nav class="sidebar-nav" aria-label="Documentation navigation">
           {% if page.lang == 'pt-br' %}
-          <a
-            href="{{ '/pt-br/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="home"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Início</a
-          >
-          <a
-            href="{{ '/pt-br/overview/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="overview"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Integrações</a
-          >
-          <a
-            href="{{ '/pt-br/webchat/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="webchat"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Webchat</a
-          >
-          <a
-            href="{{ '/pt-br/typebot-integration/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-integration"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Typebot na fila</a
-          >
-          <a
-            href="{{ '/pt-br/integration-triggers/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="integration-triggers"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Triggers e comandos</a
-          >
-          <a
-            href="{{ '/pt-br/typebot-setup/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-setup"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Instalação do Typebot</a
-          >
-          <a
-            href="{{ '/pt-br/backblaze/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="backblaze"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Backblaze</a
-          >
-          <a
-            href="{{ '/pt-br/quickpix/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="quickpix"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >QuickPix</a
-          >
-          <a
-            href="{{ '/pt-br/whmcs/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="whmcs"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >WHMCS</a
-          >
-          <a
-            href="{{ '/pt-br/examples/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="examples"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Arquivos de exemplo</a
-          >
+            <a href="{{ '/pt-br/' | relative_url }}"{% if page_slug == 'home' %} class="active"{% endif %}>Início</a>
+            <a href="{{ '/pt-br/overview/' | relative_url }}"{% if page_slug == 'overview' %} class="active"{% endif %}>Integrações</a>
+            <a href="{{ '/pt-br/webchat/' | relative_url }}"{% if page_slug == 'webchat' %} class="active"{% endif %}>Webchat</a>
+            <a href="{{ '/pt-br/typebot-integration/' | relative_url }}"{% if page_slug == 'typebot-integration' %} class="active"{% endif %}>Typebot na fila</a>
+            <a href="{{ '/pt-br/integration-triggers/' | relative_url }}"{% if page_slug == 'integration-triggers' %} class="active"{% endif %}>Triggers e comandos</a>
+            <a href="{{ '/pt-br/typebot-setup/' | relative_url }}"{% if page_slug == 'typebot-setup' %} class="active"{% endif %}>Instalação do Typebot</a>
+            <a href="{{ '/pt-br/backblaze/' | relative_url }}"{% if page_slug == 'backblaze' %} class="active"{% endif %}>Backblaze</a>
+            <a href="{{ '/pt-br/quickpix/' | relative_url }}"{% if page_slug == 'quickpix' %} class="active"{% endif %}>QuickPix</a>
+            <a href="{{ '/pt-br/whmcs/' | relative_url }}"{% if page_slug == 'whmcs' %} class="active"{% endif %}>WHMCS</a>
+            <a href="{{ '/pt-br/examples/' | relative_url }}"{% if page_slug == 'examples' %} class="active"{% endif %}>Arquivos de exemplo</a>
           {% elsif page.lang == 'es' %}
-          <a
-            href="{{ '/es/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="home"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Inicio</a
-          >
-          <a
-            href="{{ '/es/overview/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="overview"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Integraciones</a
-          >
-          <a
-            href="{{ '/es/webchat/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="webchat"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Webchat</a
-          >
-          <a
-            href="{{ '/es/typebot-integration/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-integration"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Typebot en la cola</a
-          >
-          <a
-            href="{{ '/es/integration-triggers/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="integration-triggers"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Triggers y comandos</a
-          >
-          <a
-            href="{{ '/es/typebot-setup/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-setup"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Instalación de Typebot</a
-          >
-          <a
-            href="{{ '/es/backblaze/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="backblaze"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Backblaze</a
-          >
-          <a
-            href="{{ '/es/quickpix/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="quickpix"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >QuickPix</a
-          >
-          <a
-            href="{{ '/es/whmcs/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="whmcs"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >WHMCS</a
-          >
-          <a
-            href="{{ '/es/examples/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="examples"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Archivos de ejemplo</a
-          >
+            <a href="{{ '/es/' | relative_url }}"{% if page_slug == 'home' %} class="active"{% endif %}>Inicio</a>
+            <a href="{{ '/es/overview/' | relative_url }}"{% if page_slug == 'overview' %} class="active"{% endif %}>Integraciones</a>
+            <a href="{{ '/es/webchat/' | relative_url }}"{% if page_slug == 'webchat' %} class="active"{% endif %}>Webchat</a>
+            <a href="{{ '/es/typebot-integration/' | relative_url }}"{% if page_slug == 'typebot-integration' %} class="active"{% endif %}>Typebot en la cola</a>
+            <a href="{{ '/es/integration-triggers/' | relative_url }}"{% if page_slug == 'integration-triggers' %} class="active"{% endif %}>Triggers y comandos</a>
+            <a href="{{ '/es/typebot-setup/' | relative_url }}"{% if page_slug == 'typebot-setup' %} class="active"{% endif %}>Instalación de Typebot</a>
+            <a href="{{ '/es/backblaze/' | relative_url }}"{% if page_slug == 'backblaze' %} class="active"{% endif %}>Backblaze</a>
+            <a href="{{ '/es/quickpix/' | relative_url }}"{% if page_slug == 'quickpix' %} class="active"{% endif %}>QuickPix</a>
+            <a href="{{ '/es/whmcs/' | relative_url }}"{% if page_slug == 'whmcs' %} class="active"{% endif %}>WHMCS</a>
+            <a href="{{ '/es/examples/' | relative_url }}"{% if page_slug == 'examples' %} class="active"{% endif %}>Archivos de ejemplo</a>
           {% else %}
-          <a
-            href="{{ '/en/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="home"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Home</a
-          >
-          <a
-            href="{{ '/en/overview/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="overview"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Integrations</a
-          >
-          <a
-            href="{{ '/en/webchat/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="webchat"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Webchat</a
-          >
-          <a
-            href="{{ '/en/typebot-integration/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-integration"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Typebot queue</a
-          >
-          <a
-            href="{{ '/en/integration-triggers/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="integration-triggers"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Triggers and commands</a
-          >
-          <a
-            href="{{ '/en/typebot-setup/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="typebot-setup"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Typebot installation</a
-          >
-          <a
-            href="{{ '/en/backblaze/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="backblaze"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Backblaze</a
-          >
-          <a
-            href="{{ '/en/quickpix/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="quickpix"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >QuickPix</a
-          >
-          <a
-            href="{{ '/en/whmcs/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="whmcs"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >WHMCS</a
-          >
-          <a
-            href="{{ '/en/examples/' | relative_url }}"
-            {%
-            if
-            page_slug=""
-            ="examples"
-            %}
-            class="active"
-            {%
-            endif
-            %}
-            >Example files</a
-          >
+            <a href="{{ '/en/' | relative_url }}"{% if page_slug == 'home' %} class="active"{% endif %}>Home</a>
+            <a href="{{ '/en/overview/' | relative_url }}"{% if page_slug == 'overview' %} class="active"{% endif %}>Integrations</a>
+            <a href="{{ '/en/webchat/' | relative_url }}"{% if page_slug == 'webchat' %} class="active"{% endif %}>Webchat</a>
+            <a href="{{ '/en/typebot-integration/' | relative_url }}"{% if page_slug == 'typebot-integration' %} class="active"{% endif %}>Typebot queue</a>
+            <a href="{{ '/en/integration-triggers/' | relative_url }}"{% if page_slug == 'integration-triggers' %} class="active"{% endif %}>Triggers and commands</a>
+            <a href="{{ '/en/typebot-setup/' | relative_url }}"{% if page_slug == 'typebot-setup' %} class="active"{% endif %}>Typebot installation</a>
+            <a href="{{ '/en/backblaze/' | relative_url }}"{% if page_slug == 'backblaze' %} class="active"{% endif %}>Backblaze</a>
+            <a href="{{ '/en/quickpix/' | relative_url }}"{% if page_slug == 'quickpix' %} class="active"{% endif %}>QuickPix</a>
+            <a href="{{ '/en/whmcs/' | relative_url }}"{% if page_slug == 'whmcs' %} class="active"{% endif %}>WHMCS</a>
+            <a href="{{ '/en/examples/' | relative_url }}"{% if page_slug == 'examples' %} class="active"{% endif %}>Example files</a>
           {% endif %}
         </nav>
       </aside>
@@ -445,65 +84,34 @@
         <header class="topbar">
           <div>
             <p class="eyebrow">
-              {% if page.lang == 'pt-br' %} Documentação oficial {% elsif
-              page.lang == 'es' %} Documentación oficial {% else %} Official
-              documentation {% endif %}
+              {% if page.lang == 'pt-br' %}
+                Documentação oficial
+              {% elsif page.lang == 'es' %}
+                Documentación oficial
+              {% else %}
+                Official documentation
+              {% endif %}
             </p>
             <h1>{{ page.title }}</h1>
           </div>
 
           <nav class="language-switcher" aria-label="Language switcher">
-            <a
-              href="{{ en_target | relative_url }}"
-              {%
-              if
-              page.lang=""
-              ="en"
-              %}
-              class="active"
-              {%
-              endif
-              %}
-              >EN</a
-            >
-            <a
-              href="{{ pt_target | relative_url }}"
-              {%
-              if
-              page.lang=""
-              ="pt-br"
-              %}
-              class="active"
-              {%
-              endif
-              %}
-              >PT</a
-            >
-            <a
-              href="{{ es_target | relative_url }}"
-              {%
-              if
-              page.lang=""
-              ="es"
-              %}
-              class="active"
-              {%
-              endif
-              %}
-              >ES</a
-            >
+            <a href="{{ en_target | relative_url }}"{% if page.lang == 'en' %} class="active"{% endif %}>EN</a>
+            <a href="{{ pt_target | relative_url }}"{% if page.lang == 'pt-br' %} class="active"{% endif %}>PT</a>
+            <a href="{{ es_target | relative_url }}"{% if page.lang == 'es' %} class="active"{% endif %}>ES</a>
           </nav>
         </header>
 
         <main class="content-card">{{ content }}</main>
 
         <footer class="footer">
-          {% if page.lang == 'pt-br' %} Arquivos de exemplo são servidos
-          localmente por esta documentação para evitar limitações do raw GitHub.
-          {% elsif page.lang == 'es' %} Los archivos de ejemplo se sirven
-          localmente desde esta documentación para evitar límites de GitHub raw.
-          {% else %} Example files are hosted directly in this site to avoid
-          GitHub raw rate limits. {% endif %}
+          {% if page.lang == 'pt-br' %}
+            Arquivos de exemplo são servidos localmente por esta documentação para evitar limitações do raw GitHub.
+          {% elsif page.lang == 'es' %}
+            Los archivos de ejemplo se sirven localmente desde esta documentación para evitar límites de GitHub raw.
+          {% else %}
+            Example files are hosted directly in this site to avoid GitHub raw rate limits.
+          {% endif %}
         </footer>
       </div>
     </div>
