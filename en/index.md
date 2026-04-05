@@ -41,6 +41,10 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
     <p>Learn the lifecycle of an integration attached to a queue.</p>
   </section>
   <section class="info-card">
+    <h3><a href="{{ '/en/webchat/' | relative_url }}">Webchat</a></h3>
+    <p>Set up the floating widget, customize styles, and embed it on your site.</p>
+  </section>
+  <section class="info-card">
     <h3><a href="{{ '/en/typebot-integration/' | relative_url }}">Typebot integration</a></h3>
     <p>Pass variables, render menus, and issue Ticketz commands from a flow.</p>
   </section>

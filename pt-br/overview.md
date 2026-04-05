@@ -29,6 +29,7 @@ Esse endpoint é útil quando a automação precisa escolher dinamicamente a pr�
 
 ## Leitura recomendada
 
+- [Webchat]({{ '/pt-br/webchat/' | relative_url }})
 - [Typebot na fila]({{ '/pt-br/typebot-integration/' | relative_url }})
 - [Triggers e comandos]({{ '/pt-br/integration-triggers/' | relative_url }})
 - [Arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }})

@@ -41,6 +41,10 @@ La documentación de Ticketz PRO ahora está organizada como un sitio de GitHub 
     <p>Comprende el ciclo de vida de una integración conectada a una cola.</p>
   </section>
   <section class="info-card">
+    <h3><a href="{{ '/es/webchat/' | relative_url }}">Webchat</a></h3>
+    <p>Configura el widget flotante, personaliza estilos y publícalo en tu sitio.</p>
+  </section>
+  <section class="info-card">
     <h3><a href="{{ '/es/typebot-integration/' | relative_url }}">Typebot en la cola</a></h3>
     <p>Pasa variables, renderiza menús y ejecuta comandos de Ticketz desde el flujo.</p>
   </section>

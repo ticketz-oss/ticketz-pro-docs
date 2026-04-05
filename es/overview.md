@@ -29,6 +29,7 @@ Este endpoint es útil cuando la automatización necesita elegir la siguiente co
 
 ## Lectura recomendada
 
+- [Webchat]({{ '/es/webchat/' | relative_url }})
 - [Typebot en la cola]({{ '/es/typebot-integration/' | relative_url }})
 - [Triggers y comandos]({{ '/es/integration-triggers/' | relative_url }})
 - [Archivos de ejemplo]({{ '/es/examples/' | relative_url }})
