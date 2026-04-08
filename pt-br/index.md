@@ -27,7 +27,8 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
 1. Leia a [visão geral de integrações]({{ '/pt-br/overview/' | relative_url }}) se você está montando automações em filas.
 2. Abra [Typebot na fila]({{ '/pt-br/typebot-integration/' | relative_url }}) e [triggers e comandos]({{ '/pt-br/integration-triggers/' | relative_url }}) se você está construindo fluxos de chatbot.
 3. Use [instalação do Typebot]({{ '/pt-br/typebot-setup/' | relative_url }}) quando precisar habilitar os containers extras.
-4. Vá para [arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }}) para baixar JSONs e templates `.env`.
+4. Consulte [Ticketz Sidekick]({{ '/pt-br/sidekick/' | relative_url }}) para backup, restore e migração de dados.
+5. Vá para [arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }}) para baixar JSONs e templates `.env`.
 
 ## Guias disponíveis
 
@@ -59,6 +60,10 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
   <section class="info-card">
     <h3><a href="{{ '/pt-br/quickpix/' | relative_url }}">QuickPix</a></h3>
     <p>Entenda endpoints, regras de negócio e a experiência da página de pagamento.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/sidekick/' | relative_url }}">Ticketz Sidekick</a></h3>
+    <p>Faça backup e restore do ambiente e importe dados de projetos derivados do Whaticket.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/pt-br/whmcs/' | relative_url }}">WHMCS</a></h3>
