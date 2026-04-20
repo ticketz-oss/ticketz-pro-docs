@@ -29,6 +29,7 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
 3. Use [instalação do Typebot]({{ '/pt-br/typebot-setup/' | relative_url }}) quando precisar habilitar os containers extras.
 4. Consulte [Ticketz Sidekick]({{ '/pt-br/sidekick/' | relative_url }}) para backup, restore e migração de dados.
 5. Vá para [arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }}) para baixar JSONs e templates `.env`.
+6. Veja [Server Cluster (not-released)]({{ '/pt-br/server-cluster/' | relative_url }}) para configuração de cluster e roteamento de login entre nós.
 
 ## Guias disponíveis
 
@@ -60,6 +61,10 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
   <section class="info-card">
     <h3><a href="{{ '/pt-br/quickpix/' | relative_url }}">QuickPix</a></h3>
     <p>Entenda endpoints, regras de negócio e a experiência da página de pagamento.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/server-cluster/' | relative_url }}">Server Cluster (not-released)</a></h3>
+    <p>Configure papéis master/slave, regras de hostname e descoberta de login em múltiplos nós.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/pt-br/sidekick/' | relative_url }}">Ticketz Sidekick</a></h3>
