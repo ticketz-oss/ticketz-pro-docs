@@ -21,6 +21,24 @@ Use this feature when your operation is split between multiple Ticketz nodes and
 3. If one node validates the credentials, the backend returns `backend_url`.
 4. The frontend re-runs login on that returned backend and stores this backend as the selected API base URL.
 
+## Setup order: Slaves before Master
+
+**Important:** Configure all **slave** servers with CORS rules that allow the **master** server origin *before* configuring the master itself.
+
+Why? The master validates connectivity to slaves during configuration save. Slaves will discover master connectivity only during login attempts and will fail gracefully if unreachable.
+
+## Hostname format
+
+Node hostnames should be DNS names without protocol or path:
+
+- ✅ `cluster-node-1.company.com`
+- ✅ `ticketz.example.org`
+- ❌ `https://cluster-node-1.company.com`
+- ❌ `cluster-node-1.company.com/backend`
+- ❌ `cluster-node-1.company.com:3001` (prefer DNS SRV records or load balancers with TLS)
+
+Ticketz will automatically append the protocol and backend path.
+
 ## Setup in Settings
 
 Open **Settings > Server Cluster** and choose the server role.
@@ -28,44 +46,28 @@ Open **Settings > Server Cluster** and choose the server role.
 ### Master role
 
 - Fill the list of **slave hostnames**.
-- Each hostname can be either:
-  - `domain.example.com` (uses `https` and backend path `/backend`)
-  - `hostname:port` (uses `http` and no `/backend` suffix)
+- The master will validate connectivity to all slaves during save.
+- Can be left empty; slaves can be added or updated later.
 
 ### Slave role
 
-- Fill only the **master hostname**.
-- The same hostname format rules apply:
-  - `domain.example.com` -> `https://domain.example.com/backend`
-  - `hostname:port` -> `http://hostname:port`
+- Fill the **master hostname** only.
+- No connectivity validation is performed (due to CORS restrictions).
+- The slave will discover connectivity during actual login attempts and fail gracefully if unreachable.
 
-## Hostname format rules
+## Error messages
 
-The cluster logic normalizes values by removing protocol and path before storing.
+When saving a master configuration, each slave hostname is validated. If validation fails, the error message shows:
 
-| Input example | Probed backend URL | Allowed CORS origin |
-| --- | --- | --- |
-| `node-a.ticketz.com` | `https://node-a.ticketz.com/backend` | `https://node-a.ticketz.com` |
-| `10.0.0.25:8080` | `http://10.0.0.25:8080` | `http://10.0.0.25:8080` |
+- Which hostname failed
+- Why it failed (unreachable, invalid response, etc.)
 
-## CORS behavior
-
-Cluster origins are additive and do not replace existing behavior.
-
-- Legacy origins still work (`FRONTEND_URL`, `FRONTEND_CUSTOM_URL`, `FRONTEND_URL_REGEX`).
-- Slave hostnames configured in cluster settings are also allowed.
-- If dynamic cluster origin loading fails, Ticketz falls back to legacy allowlist only.
+You can then fix the hostname, firewall rules, CORS configuration, or other issues and retry.
 
 ## Login flow behavior
 
 If a user logs in on the wrong backend:
 
-- backend tries `/auth/validate-login` on configured cluster nodes;
-- on success, backend returns `backend_url` in the login response;
-- frontend retries login against that backend and persists it for future requests.
-
-## Validation tips
-
-- Prefer DNS hostnames in production.
-- Use `hostname:port` for local or private network topologies when TLS is terminated elsewhere.
-- Ensure every node is reachable from the node executing credential probing.
+- The backend tries `/auth/validate-login` on configured cluster nodes.
+- On success, the backend returns `backend_url` in the login response.
+- The frontend retries login against that backend and persists it for future requests.

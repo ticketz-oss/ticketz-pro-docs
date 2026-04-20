@@ -21,6 +21,24 @@ Usa esta función cuando tu operación está dividida entre varios nodos de Tick
 3. Si un nodo valida las credenciales, el backend retorna `backend_url`.
 4. El frontend repite el login en ese backend y guarda ese backend como base de API seleccionada.
 
+## Orden de configuración: Slaves antes del Master
+
+**Importante:** Configura todos los servidores **slave** con reglas de CORS que permitan el origen del servidor **master** *antes* de configurar el master.
+
+¿Por qué? El master valida conectividad a los slaves durante el guardado de la configuración. Los slaves descubrirán conectividad al master solo durante intentos de login reales y fallarán gracefully si son inaccesibles.
+
+## Formato de hostname
+
+Los hostnames de nodos deben ser nombres DNS sin protocolo o ruta:
+
+- ✅ `cluster-node-1.empresa.com`
+- ✅ `ticketz.ejemplo.org`
+- ❌ `https://cluster-node-1.empresa.com`
+- ❌ `cluster-node-1.empresa.com/backend`
+- ❌ `cluster-node-1.empresa.com:3001` (prefiere registros DNS SRV o load balancers con TLS)
+
+Ticketz agregará automáticamente el protocolo y la ruta del backend.
+
 ## Configuración en Ajustes
 
 Abre **Configuración > Server Cluster** y selecciona el rol del servidor.
@@ -28,33 +46,23 @@ Abre **Configuración > Server Cluster** y selecciona el rol del servidor.
 ### Rol Master
 
 - Completa la lista de **hostnames de slaves**.
-- Cada hostname puede ser:
-  - `dominio.ejemplo.com` (usa `https` y ruta `/backend`)
-  - `hostname:puerto` (usa `http` y sin sufijo `/backend`)
+- El master validará la conectividad a todos los slaves durante el guardado.
+- Puede estar vacío; los slaves pueden agregarse o actualizarse más tarde.
 
 ### Rol Slave
 
 - Completa solo el **hostname del master**.
-- Se aplican las mismas reglas de formato:
-  - `dominio.ejemplo.com` -> `https://dominio.ejemplo.com/backend`
-  - `hostname:puerto` -> `http://hostname:puerto`
+- No se realiza validación de conectividad (debido a restricciones CORS).
+- El slave descubrirá conectividad durante intentos reales de login y fallará gracefully si es inaccesible.
 
-## Reglas de formato de hostname
+## Mensajes de error
 
-La lógica de clúster normaliza valores removiendo protocolo y ruta antes de guardar.
+Al guardar una configuración de master, cada hostname de slave se valida. Si la validación falla, el mensaje de error muestra:
 
-| Ejemplo de entrada | URL de backend consultada | Origen CORS permitido |
-| --- | --- | --- |
-| `node-a.ticketz.com` | `https://node-a.ticketz.com/backend` | `https://node-a.ticketz.com` |
-| `10.0.0.25:8080` | `http://10.0.0.25:8080` | `http://10.0.0.25:8080` |
+- Qué hostname falló
+- Por qué falló (inaccesible, respuesta inválida, etc.)
 
-## Comportamiento CORS
-
-Los orígenes del clúster se agregan sin reemplazar el comportamiento anterior.
-
-- Los orígenes legacy siguen funcionando (`FRONTEND_URL`, `FRONTEND_CUSTOM_URL`, `FRONTEND_URL_REGEX`).
-- Los hostnames slave configurados en clúster también quedan permitidos.
-- Si falla la carga dinámica de orígenes del clúster, Ticketz hace fallback solo al allowlist legacy.
+Puedes corregir el hostname, reglas de firewall, configuración de CORS u otros problemas e intentar de nuevo.
 
 ## Comportamiento del flujo de login
 
