@@ -30,7 +30,7 @@ La documentación de Ticketz PRO ahora está organizada como un sitio de GitHub 
 4. Revisa [Ticketz Sidekick]({{ '/es/sidekick/' | relative_url }}) para backup, restore y migración de datos.
 5. Consulta [variables de expansión]({{ '/es/expansion-variables/' | relative_url }}) para usar placeholders en plantillas y automatizaciones.
 6. Ve a [archivos de ejemplo]({{ '/es/examples/' | relative_url }}) para descargar JSON y plantillas `.env`.
-7. Consulta [Server Cluster (not-released)]({{ '/es/server-cluster/' | relative_url }}) para configuración de clúster y enrutamiento de login entre nodos.
+7. Consulta [Server Cluster]({{ '/es/server-cluster/' | relative_url }}) para configuración de clúster y enrutamiento de login entre nodos.
 
 ## Guías disponibles
 
@@ -68,7 +68,7 @@ La documentación de Ticketz PRO ahora está organizada como un sitio de GitHub 
     <p>Entiende endpoints, reglas de negocio y la experiencia de la página de pago.</p>
   </section>
   <section class="info-card">
-    <h3><a href="{{ '/es/server-cluster/' | relative_url }}">Server Cluster (not-released)</a></h3>
+    <h3><a href="{{ '/es/server-cluster/' | relative_url }}">Server Cluster</a></h3>
     <p>Configura roles master/slave, reglas de hostname y descubrimiento de login entre nodos.</p>
   </section>
   <section class="info-card">
