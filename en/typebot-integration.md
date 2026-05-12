@@ -37,6 +37,8 @@ Along with your custom parameters, Ticketz provides standard variables:
 - `token`: bearer token used to issue HTTP requests that act on the current ticket and integration session.
 - `metadata`: additional information exposed by the connection driver and runtime context.
 
+For expansion variables used in templates and automation messages, see [Expansion variables]({{ '/en/expansion-variables/' | relative_url }}).
+
 ## Trigger commands from Typebot
 
 Ticketz allows special commands such as queue transfer, user assignment, session end, and ticket close. These commands are sent through a **Text** bubble that starts with `#` followed immediately by a JSON string.

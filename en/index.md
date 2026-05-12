@@ -28,8 +28,9 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
 2. Open [Typebot queue integration]({{ '/en/typebot-integration/' | relative_url }}) and [triggers and commands]({{ '/en/integration-triggers/' | relative_url }}) if you are building chatbot flows.
 3. Use [Typebot installation]({{ '/en/typebot-setup/' | relative_url }}) when you need the extra containers enabled.
 4. Read [Ticketz Sidekick]({{ '/en/sidekick/' | relative_url }}) for backup, restore, and data migration operations.
-5. Go to [example files]({{ '/en/examples/' | relative_url }}) for ready-to-download JSON and `.env` templates.
-6. See [Server Cluster (not-released)]({{ '/en/server-cluster/' | relative_url }}) for multi-node login routing and cluster setup.
+5. Check [expansion variables]({{ '/en/expansion-variables/' | relative_url }}) to use placeholders in templates and automations.
+6. Go to [example files]({{ '/en/examples/' | relative_url }}) for ready-to-download JSON and `.env` templates.
+7. See [Server Cluster (not-released)]({{ '/en/server-cluster/' | relative_url }}) for multi-node login routing and cluster setup.
 
 ## Available guides
 
@@ -49,6 +50,10 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
   <section class="info-card">
     <h3><a href="{{ '/en/typebot-integration/' | relative_url }}">Typebot integration</a></h3>
     <p>Pass variables, render menus, and issue Ticketz commands from a flow.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/expansion-variables/' | relative_url }}">Expansion variables</a></h3>
+    <p>See all placeholders available for templates, messages, and automations.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/en/integration-triggers/' | relative_url }}">Triggers and commands</a></h3>

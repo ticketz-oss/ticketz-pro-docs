@@ -31,6 +31,7 @@ Esse endpoint é útil quando a automação precisa escolher dinamicamente a pr�
 
 - [Webchat]({{ '/pt-br/webchat/' | relative_url }})
 - [Typebot na fila]({{ '/pt-br/typebot-integration/' | relative_url }})
+- [Variáveis de expansão]({{ '/pt-br/expansion-variables/' | relative_url }})
 - [Triggers e comandos]({{ '/pt-br/integration-triggers/' | relative_url }})
 - [Ticketz Sidekick]({{ '/pt-br/sidekick/' | relative_url }})
 - [Arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }})

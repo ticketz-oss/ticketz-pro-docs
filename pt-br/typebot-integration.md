@@ -37,6 +37,8 @@ Além dos seus parâmetros customizados, o Ticketz fornece variáveis padrão:
 - `token`: token bearer usado para emitir requisições HTTP que agem sobre o ticket e a sessão atuais.
 - `metadata`: informações adicionais vindas do driver de conexão e do contexto da execução.
 
+Para variáveis de expansão usadas em templates e mensagens de automação, consulte [Variáveis de expansão]({{ '/pt-br/expansion-variables/' | relative_url }}).
+
 ## Comandos especiais no Typebot
 
 O Ticketz permite acionar funções como transferir para outra fila, atribuir a um usuário, encerrar a sessão ou fechar o atendimento. Esses comandos são enviados por uma bolha **Text** iniciando com `#` e seguida imediatamente por uma string JSON.

@@ -31,6 +31,7 @@ This is useful when the automation needs to decide the next queue dynamically.
 
 - [Webchat]({{ '/en/webchat/' | relative_url }})
 - [Typebot queue integration]({{ '/en/typebot-integration/' | relative_url }})
+- [Expansion variables]({{ '/en/expansion-variables/' | relative_url }})
 - [Triggers and commands]({{ '/en/integration-triggers/' | relative_url }})
 - [Ticketz Sidekick]({{ '/en/sidekick/' | relative_url }})
 - [Example files]({{ '/en/examples/' | relative_url }})
