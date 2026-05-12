@@ -5,9 +5,6 @@ slug: server-cluster
 description: Configure e opere o modo Server Cluster no Ticketz PRO.
 ---
 
-> **Status:** `not-released`  
-> Esta página documenta uma funcionalidade já implementada, mas ainda não lançada oficialmente.
-
 O Server Cluster permite que um nó do Ticketz descubra credenciais em outros nós e redirecione o usuário para o backend correto.
 
 ## Quando usar

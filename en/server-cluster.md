@@ -5,9 +5,6 @@ slug: server-cluster
 description: Configure and operate Server Cluster mode in Ticketz PRO.
 ---
 
-> **Status:** `not-released`  
-> This page documents a feature that is already implemented but not officially released yet.
-
 Server Cluster allows one Ticketz node to discover login credentials on other nodes and route the user to the correct backend.
 
 ## When to use
