@@ -1,5 +1,5 @@
 ---
-title: Backblaze
+title: Configuração do Backblaze
 lang: pt-br
 slug: backblaze
 description: Configure o armazenamento Backblaze no Ticketz PRO.
@@ -11,9 +11,10 @@ Este guia ajuda a configurar o Backblaze no Ticketz em poucos minutos.
 
 1. Crie uma conta em `https://www.backblaze.com`.
 2. Crie um bucket e altere a visibilidade para público. Nessa etapa o Backblaze pode solicitar o cartão.
-3. Abra **Billing** no canto superior direito e adicione o cartão novamente, se necessário.
-4. Vá em **Application Keys** e crie uma nova chave com permissão de leitura e escrita no bucket.
-5. Guarde o **Key ID** e a **Application Key**.
+3. Altere a configuração de CORS do bucket para aceitar a URL da sua instalação do Ticketz.
+4. Abra **Billing** no canto superior direito e adicione o cartão novamente, se necessário.
+5. Vá em **Application Keys** e crie uma nova chave com permissão de leitura e escrita no bucket.
+6. Guarde o **Key ID** e a **Application Key**.
 
 ## Campos no Ticketz
 

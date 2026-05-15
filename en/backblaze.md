@@ -11,9 +11,10 @@ This guide helps you configure Backblaze in Ticketz within a few minutes.
 
 1. Create an account at `https://www.backblaze.com`.
 2. Create a bucket and set its visibility to public. Backblaze asks for a credit card during this step.
-3. Open **Billing** in the top-right corner and add the card again if required.
-4. Open **Application Keys** and create a new key with read and write permission for the bucket.
-5. Save the **Key ID** and **Application Key**.
+3. Change CORS configuration of the bucket to accept the url of your installation of Ticketz
+4. Open **Billing** in the top-right corner and add the card again if required.
+5. Open **Application Keys** and create a new key with read and write permission for the bucket.
+6. Save the **Key ID** and **Application Key**.
 
 ## Ticketz fields
 
