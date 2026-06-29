@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title: Ticketz External NFS-e Driver RPC
+  version: 1.0.0
+  description: |
+    Contract for an external NFS-e driver endpoint. The Ticketz backend
+    `ExternalNfseDriver` delegates every NFS-e operation to a single
+    RPC-style `POST /` on the configured endpoint URL.
+servers:
+  - url: https://your-external-nfse-endpoint.example.com
+    description: Example external endpoint
+security:
+  - bearerAuth: []
+paths:
+  /:
+    post:
+      summary: NFS-e RPC endpoint
+      description: |
+        Receives all NFS-e operations. The `operation` field in the body
+        routes the call. Responses are discriminated by `operation`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExternalNfseRequest"
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalNfseResponse"
+        "400":
+          description: Invalid request
+        "429":
+          description: Rate limited (retryable)
+        "5xx":
+          description: Server error (retryable)
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ExternalNfseRequest:
+      type: object
+      required: [operation, driver]
+      properties:
+        operation:
+          type: string
+          enum: [emit, fetchStatus, getPdf, getXml, cancel, getDriverDetails]
+        driver:
+          type: string
+          enum: [external]
+        invoiceId:
+          type: integer
+        company:
+          type: object
+          description: Paying company with fiscalData.
+        invoice:
+          type: object
+          description: Invoice being invoiced.
+        nfseData:
+          type: object
+          description: Existing NFS-e data on the invoice (if any).
+        reason:
+          type: string
+          description: Cancellation reason (cancel operation only).
+        currentSettings:
+          type: object
+          description: Current driver settings (key/value).
+        idempotencyKey:
+          type: string
+          format: uuid
+    ExternalNfseResponse:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+        status:
+          type: string
+          enum: [authorized, pending, error]
+        nfseData:
+          type: object
+          description: NFS-e data to persist on the invoice.
+        nfseUrl:
+          type: string
+          description: Direct URL to the NFS-e PDF (optional).
+        pdfBase64:
+          type: string
+          description: Base64-encoded PDF (getPdf operation).
+        xml:
+          type: string
+          description: NFS-e XML content (getXml operation).
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/DynamicField"
+          description: Dynamic config fields (getDriverDetails operation).
+        operations:
+          type: array
+          items:
+            type: string
+            enum: [emit, fetchStatus, getPdf, getXml, cancel, getDriverDetails]
+    DynamicField:
+      type: object
+      required: [name, title, type]
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [text, textarea, select, checkbox, file, number, section]
+        lgWidth:
+          type: integer
+        required:
+          type: boolean
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              label:
+                type: string
+        extra:
+          type: object

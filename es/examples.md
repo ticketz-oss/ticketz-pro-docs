@@ -14,6 +14,8 @@ Estos archivos se alojan directamente en GitHub Pages, por lo que no necesitas d
 - [example.env-backend]({{ '/assets/examples/example.env-backend' | relative_url }}): Plantilla del entorno del backend
 - [example.env-frontend]({{ '/assets/examples/example.env-frontend' | relative_url }}): Plantilla del entorno del frontend
 - [example.env-integrations]({{ '/assets/examples/example.env-integrations' | relative_url }}): Plantilla del entorno de integraciones y Typebot
+- [External-Payment-Driver-OpenAPI.yaml]({{ '/assets/examples/External-Payment-Driver-OpenAPI.yaml' | relative_url }}): Contrato OpenAPI 3.0 del endpoint RPC del driver de pago Genérico Externo
+- [External-NFSE-Driver-OpenAPI.yaml]({{ '/assets/examples/External-NFSE-Driver-OpenAPI.yaml' | relative_url }}): Contrato OpenAPI 3.0 del endpoint RPC del driver de NFS-e externa
 
 ## Notas de uso
 

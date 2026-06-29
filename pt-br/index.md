@@ -31,6 +31,7 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
 5. Confira [variáveis de expansão]({{ '/pt-br/expansion-variables/' | relative_url }}) para usar placeholders em templates e automações.
 6. Vá para [arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }}) para baixar JSONs e templates `.env`.
 7. Veja [Server Cluster]({{ '/pt-br/server-cluster/' | relative_url }}) para configuração de cluster e roteamento de login entre nós.
+8. Leia [Campos de formulário dinâmico]({{ '/pt-br/dynamic-form-fields/' | relative_url }}) ao construir um driver externo personalizado que declara campos de configuração.
 
 ## Guias disponíveis
 
@@ -78,6 +79,10 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
   <section class="info-card">
     <h3><a href="{{ '/pt-br/whmcs/' | relative_url }}">WHMCS</a></h3>
     <p>Use o WHMCS para controlar assinatura e provisionamento no Ticketz.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/dynamic-form-fields/' | relative_url }}">Campos de formulário dinâmico</a></h3>
+    <p>Referência do schema de campos usado pelo DynamicForm e pelo array `fields` dos drivers externos.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/pt-br/examples/' | relative_url }}">Arquivos de exemplo</a></h3>

@@ -31,6 +31,7 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
 5. Check [expansion variables]({{ '/en/expansion-variables/' | relative_url }}) to use placeholders in templates and automations.
 6. Go to [example files]({{ '/en/examples/' | relative_url }}) for ready-to-download JSON and `.env` templates.
 7. See [Server Cluster]({{ '/en/server-cluster/' | relative_url }}) for multi-node login routing and cluster setup.
+8. Read [Dynamic form fields]({{ '/en/dynamic-form-fields/' | relative_url }}) when building a custom external driver that declares settings fields.
 
 ## Available guides
 
@@ -78,6 +79,10 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
   <section class="info-card">
     <h3><a href="{{ '/en/whmcs/' | relative_url }}">WHMCS</a></h3>
     <p>Use WHMCS to drive subscription provisioning in Ticketz.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/dynamic-form-fields/' | relative_url }}">Dynamic form fields</a></h3>
+    <p>Reference the field schema used by DynamicForm and the external driver `fields` array.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/en/examples/' | relative_url }}">Example files</a></h3>

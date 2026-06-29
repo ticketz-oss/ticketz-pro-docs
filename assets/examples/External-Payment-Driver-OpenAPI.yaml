@@ -1,0 +1,808 @@
+openapi: 3.0.3
+info:
+  title: Ticketz PRO - Generic External Payment Driver RPC Contract
+  description: |
+    HTTP contract that any endpoint must implement in order to be used as a
+    **Generic External** payment gateway in Ticketz PRO.
+
+    The driver sends every operation as a single `POST` request to the
+    configured endpoint URL. The endpoint must reply with a JSON envelope that
+    contains at least a `success` boolean. Additional fields are required
+    depending on the operation.
+
+    Ticketz validates the shape of the response. If a required field is missing
+    or has an invalid value, Ticketz aborts the operation and returns an
+    `ERR_EXTERNAL_*` error to the caller.
+  version: 1.0.0
+  contact:
+    name: Ticketz PRO
+servers:
+  - url: https://your-service.example.com
+    description: Endpoint configured in Settings → Payment Gateway → Generic External
+
+security:
+  - bearerAuth: []
+
+paths:
+  /:
+    post:
+      summary: Generic External Payment Driver RPC endpoint
+      description: |
+        Receives all operations from the Ticketz external payment driver.
+        The `operation` field inside the JSON body determines which action the
+        endpoint must perform.
+      operationId: externalPaymentRpc
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/CreateRequest"
+                - $ref: "#/components/schemas/CreateSubscriptionRequest"
+                - $ref: "#/components/schemas/SyncSubscriptionPaymentRequest"
+                - $ref: "#/components/schemas/WebhookRequest"
+                - $ref: "#/components/schemas/CheckStatusRequest"
+                - $ref: "#/components/schemas/ExpireRequest"
+                - $ref: "#/components/schemas/GetSubscriptionStatusRequest"
+                - $ref: "#/components/schemas/GetDriverDetailsRequest"
+            discriminator:
+              propertyName: operation
+              mapping:
+                create: "#/components/schemas/CreateRequest"
+                createSubscription: "#/components/schemas/CreateSubscriptionRequest"
+                syncSubscriptionPayment: "#/components/schemas/SyncSubscriptionPaymentRequest"
+                webhook: "#/components/schemas/WebhookRequest"
+                checkStatus: "#/components/schemas/CheckStatusRequest"
+                expire: "#/components/schemas/ExpireRequest"
+                getSubscriptionStatus: "#/components/schemas/GetSubscriptionStatusRequest"
+                getDriverDetails: "#/components/schemas/GetDriverDetailsRequest"
+      responses:
+        "200":
+          description: Operation processed successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/CreateResponse"
+                  - $ref: "#/components/schemas/CreateSubscriptionResponse"
+                  - $ref: "#/components/schemas/SyncSubscriptionPaymentResponse"
+                  - $ref: "#/components/schemas/WebhookResponse"
+                  - $ref: "#/components/schemas/CheckStatusResponse"
+                  - $ref: "#/components/schemas/ExpireResponse"
+                  - $ref: "#/components/schemas/GetSubscriptionStatusResponse"
+                  - $ref: "#/components/schemas/GetDriverDetailsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        Token configured in Settings → Payment Gateway → Generic External.
+        Ticketz sends it as `Authorization: Bearer <token>` by default.
+
+  schemas:
+    Operation:
+      type: string
+      enum:
+        - create
+        - createSubscription
+        - syncSubscriptionPayment
+        - webhook
+        - checkStatus
+        - expire
+        - getSubscriptionStatus
+        - getDriverDetails
+      description: |
+        `getDriverDetails` is the canonical operation used by the driver to
+        populate its cache. `getSubscriptionStatus` is used by the daily
+        reconciliation job to verify active subscriptions.
+
+    PaymentMethod:
+      type: string
+      enum:
+        - pix
+        - boleto
+        - credit_card
+
+    Mode:
+      type: string
+      enum:
+        - pix
+        - boleto
+        - cc
+        - link
+      description: |
+        Concrete payment modality selected by the user during checkout.
+
+    CardData:
+      type: object
+      required:
+        - cardNumber
+        - expirationDate
+        - securityCode
+        - cardholderName
+      properties:
+        cardNumber:
+          type: string
+        expirationDate:
+          type: string
+          description: MM/YYYY or MM/YY depending on the provider.
+        securityCode:
+          type: string
+        cardholderName:
+          type: string
+        identificationType:
+          type: string
+          description: CPF/CNPJ type hint, e.g. "cpf" or "cnpj".
+        identificationNumber:
+          type: string
+          description: Cardholder CPF/CNPJ without formatting.
+
+    PaymentStatus:
+      type: string
+      enum:
+        - paid
+        - expired
+        - ignored
+      description: |
+        `paid` or `expired` requires `txId` on webhook operations so
+        PaymentGatewayServices can locate the open invoice. On `checkStatus`
+        operations, `expired` marks the invoice as expired and records
+        `expiredAt` in `paymentData`.
+
+    SubscriptionStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+        - canceled
+      description: |
+        Current status of an externally managed subscription. `inactive` or
+        `canceled` tells Ticketz that the company subscription is no longer
+        active and invoice generation should fall back to the regular billing
+        cycle.
+
+    FieldType:
+      type: string
+      enum:
+        - text
+        - textarea
+        - select
+        - checkbox
+        - json
+        - color
+        - uuid
+        - file
+        - button
+        - number
+
+    BaseRequest:
+      type: object
+      required:
+        - operation
+        - driver
+        - callbackUrl
+      properties:
+        operation:
+          $ref: "#/components/schemas/Operation"
+        driver:
+          type: string
+          enum:
+            - external
+        callbackUrl:
+          type: string
+          format: uri
+          description: |
+            URL that the provider must call to notify Ticketz about payment
+            events. Ticketz exposes this path automatically.
+        idempotencyKey:
+          type: string
+          format: uuid
+          description: |
+            Unique key generated by Ticketz for each RPC attempt. The endpoint
+            should use it to avoid duplicate charges on retries.
+        currentSettings:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          description: |
+            All configured `_external*` settings, keyed by their full names
+            (e.g. `_externalEndpointUrl`).
+        fileData:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          description: |
+            Base64-encoded contents of private file fields declared by the
+            endpoint. Keys are the full setting names (e.g. `_externalCertFile`).
+
+    Company:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        dueDate:
+          type: string
+          format: date
+        recurrence:
+          type: string
+        fiscalData:
+          type: object
+          description: CPF/CNPJ, address and other fiscal information.
+        externalIds:
+          type: object
+          description: Provider-specific identifiers stored on the company.
+
+    Invoice:
+      type: object
+      required:
+        - id
+        - status
+        - value
+        - currency
+      properties:
+        id:
+          type: integer
+        detail:
+          type: string
+        status:
+          type: string
+        value:
+          type: number
+        currency:
+          type: string
+        txId:
+          type: string
+          nullable: true
+        payGw:
+          type: string
+          nullable: true
+        payGwData:
+          type: string
+          nullable: true
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethod"
+        paymentData:
+          type: object
+          nullable: true
+        dueDate:
+          type: string
+          format: date
+        companyId:
+          type: integer
+
+    CreateRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - invoiceId
+            - price
+            - paymentMethod
+            - mode
+            - company
+            - invoice
+          properties:
+            invoiceId:
+              type: integer
+            price:
+              type: number
+            paymentMethod:
+              $ref: "#/components/schemas/PaymentMethod"
+            mode:
+              $ref: "#/components/schemas/Mode"
+            cardData:
+              $ref: "#/components/schemas/CardData"
+              description: |
+                Present when `mode` is `cc`. Contains the credit-card data
+                captured by the frontend form.
+            company:
+              $ref: "#/components/schemas/Company"
+            invoice:
+              $ref: "#/components/schemas/Invoice"
+
+    CreateSubscriptionRequest:
+      allOf:
+        - $ref: "#/components/schemas/CreateRequest"
+        - type: object
+          description: |
+            Same payload as `create`. Ticketz calls this operation when
+            `{prefix}EnableSubscriptions` is enabled and the endpoint reports
+            `createSubscription` in `getDriverDetails.operations`.
+
+    SyncSubscriptionPaymentRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - invoiceId
+            - company
+            - invoice
+          properties:
+            invoiceId:
+              type: integer
+            txId:
+              type: string
+              description: Previous transaction id stored on the invoice, if any.
+            subscriptionId:
+              type: string
+              description: Subscription identifier stored on the invoice and company.
+            paymentMethod:
+              $ref: "#/components/schemas/PaymentMethod"
+            company:
+              $ref: "#/components/schemas/Company"
+            invoice:
+              $ref: "#/components/schemas/Invoice"
+          description: |
+            Called daily for open subscription invoices and when the admin
+            clicks "Sync payment". The endpoint should return the next pending
+            subscription payment data, if available.
+
+    WebhookRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - webhookBody
+            - webhookHeaders
+            - webhookQuery
+          properties:
+            webhookBody:
+              type: object
+              description: Raw JSON body sent by the payment provider.
+            webhookHeaders:
+              type: object
+              additionalProperties:
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              description: Headers sent by the payment provider.
+            webhookQuery:
+              type: object
+              description: Query parameters sent by the payment provider.
+
+    CheckStatusRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - txId
+            - paymentMethod
+          properties:
+            txId:
+              type: string
+            paymentMethod:
+              $ref: "#/components/schemas/PaymentMethod"
+
+    ExpireRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - invoiceId
+          properties:
+            invoiceId:
+              type: integer
+            txId:
+              type: string
+              nullable: true
+
+    BaseResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+        errorCode:
+          type: string
+          description: |
+            Machine-readable error code. Required when `success` is `false`.
+            Ticketz forwards this code to the frontend.
+        errorMessage:
+          type: string
+          description: Human-readable error details.
+
+    Qrcode:
+      type: object
+      required:
+        - qrcode
+      properties:
+        qrcode:
+          type: string
+          description: PIX "copia e cola" string.
+
+    IntegrationOptionsField:
+      type: object
+      required:
+        - name
+        - title
+        - type
+        - required
+      properties:
+        name:
+          type: string
+          description: |
+            Field identifier without the `_external` prefix. Ticketz prefixes
+            it automatically.
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: "#/components/schemas/FieldType"
+        lgWidth:
+          type: integer
+          minimum: 1
+          maximum: 12
+          default: 12
+        required:
+          type: boolean
+        default:
+          description: Default value for the field.
+        options:
+          type: array
+          items:
+            type: object
+            required:
+              - value
+              - label
+            properties:
+              value:
+                type: string
+              label:
+                type: string
+        extra:
+          type: object
+          properties:
+            action:
+              type: object
+              required:
+                - type
+                - label
+                - url
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - fetch
+                label:
+                  type: string
+                method:
+                  type: string
+                  enum:
+                    - GET
+                    - POST
+                  default: POST
+                url:
+                  type: string
+                dependsOn:
+                  type: array
+                  items:
+                    type: string
+                headers:
+                  type: object
+                  additionalProperties:
+                    type: string
+            file:
+              type: object
+              properties:
+                accept:
+                  type: string
+                private:
+                  type: boolean
+                  default: false
+
+    CreateResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          required:
+            - paymentMethod
+            - txId
+            - value
+          properties:
+            paymentMethod:
+              $ref: "#/components/schemas/PaymentMethod"
+            txId:
+              type: string
+              description: Unique transaction identifier used to reconcile payments.
+            value:
+              type: number
+            qrcode:
+              $ref: "#/components/schemas/Qrcode"
+            boletoUrl:
+              type: string
+              format: uri
+            boletoTypeable:
+              type: string
+            boletoBarcode:
+              type: string
+            expireAt:
+              type: string
+              format: date-time
+              description: |
+                Expiration date/time for short-lived charges, such as Pix QR
+                codes. The frontend renders a live countdown from this value.
+                Prefer `dueDate` for boleto and other longer-term payment
+                methods.
+            dueDate:
+              type: string
+              format: date
+              description: |
+                Due date for longer-term payment methods, such as boleto. It
+                typically represents a calendar day (without an exact time)
+                and the frontend displays it as a date rather than a
+                countdown. Prefer `expireAt` for short-lived charges such as
+                Pix.
+            checkoutUrl:
+              type: string
+              format: uri
+              description: |
+                URL for an external checkout page. Required when `mode` is
+                `link`. The frontend redirects the user to this URL.
+            payGwData:
+              type: object
+              description: Raw provider data stored on the invoice.
+            paymentData:
+              type: object
+              description: |
+                Optional object that overrides the automatically built payment
+                data. When omitted, Ticketz builds it from `qrcode`,
+                `boletoUrl`, `boletoTypeable`, `boletoBarcode`,
+                `checkoutUrl`, `expireAt` and `dueDate`.
+      description: |
+        When `success` is `true`, `paymentMethod` and `txId` are mandatory.
+        For `pix`, at least `qrcode` is expected. For `boleto`, at least
+        `boletoUrl` is expected. For `link`, at least `checkoutUrl` is
+        expected. Ticketz enforces these rules at runtime.
+
+        Date semantics:
+        - Use `expireAt` for short-lived charges (e.g. Pix) so the frontend
+          can show a countdown.
+        - Use `dueDate` for longer-term charges (e.g. boleto) so the frontend
+          can show a calendar date.
+        - When both are returned, Ticketz keeps only the most relevant one:
+          `expireAt` for `pix` and `dueDate` for all other payment methods.
+          The API response and the stored `paymentData` will contain only the
+          chosen field.
+
+    CreateSubscriptionResponse:
+      allOf:
+        - $ref: "#/components/schemas/CreateResponse"
+        - type: object
+          required:
+            - subscriptionId
+          properties:
+            subscriptionId:
+              type: string
+              description: |
+                Unique subscription identifier returned by the provider.
+                Ticketz stores this on the invoice and on the company so it
+                can match future webhook renewals.
+      description: |
+        Same shape as `CreateResponse`, but `subscriptionId` is mandatory.
+        The first charge data (`qrcode`, `boletoUrl` or `checkoutUrl`) may
+        also be included when the provider generates it immediately.
+
+    SyncSubscriptionPaymentResponse:
+      allOf:
+        - $ref: "#/components/schemas/CreateResponse"
+      description: |
+        Returns the next pending subscription payment data. When `success` is
+        `true` but `txId` is omitted, Ticketz treats the response as "no
+        pending payment available" and does not update the invoice. When
+        `txId` is present, the response is validated like a `create` response
+        and the invoice is updated with the new payable data.
+
+    WebhookResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              $ref: "#/components/schemas/PaymentStatus"
+            txId:
+              type: string
+              description: |
+                Transaction identifier returned by the provider. Ticketz uses
+                this to locate the open invoice internally. Required when
+                `status` is `paid` or `expired`, unless `subscriptionId` is
+                provided.
+            subscriptionId:
+              type: string
+              description: |
+                Subscription identifier returned by the provider. When `txId`
+                is unknown, Ticketz resolves the oldest open invoice with this
+                subscription id and updates its `txId` before processing the
+                payment.
+            value:
+              type: number
+              description: |
+                Amount paid. Ticketz compares it against the invoice value;
+                if omitted, the invoice value is assumed.
+            webhookResponse:
+              type: object
+              description: |
+                Optional response that Ticketz will forward back to the
+                payment provider. When omitted, Ticketz replies with the
+                default `{ "ok": true }`.
+              properties:
+                statusCode:
+                  type: integer
+                  description: HTTP status code returned to the provider.
+                  minimum: 100
+                  maximum: 599
+                  default: 200
+                body:
+                  description: JSON-serializable body returned to the provider.
+                headers:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: HTTP headers returned to the provider.
+      description: |
+        `paid` or `expired` requires `txId` or `subscriptionId` so Ticketz
+        can locate the open invoice. When `subscriptionId` is provided and
+        `txId` is not, Ticketz resolves the oldest open invoice for that
+        subscription, updates its `txId` and processes the notification.
+        When `status` is `paid`, the paid `value` is checked against the
+        invoice value; if it is lower, the webhook is ignored.
+        `ignored` can omit both.
+
+    CheckStatusResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              $ref: "#/components/schemas/PaymentStatus"
+      description: |
+        Only the `status` field is required. If it equals `paid`, Ticketz marks
+        the invoice as paid. If it equals `expired`, Ticketz clears the
+        existing charge data (`txId`, `payGw`, `payGwData`, `paymentMethod`
+        and `paymentData`) so a new charge can be generated.
+
+    ExpireResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          description: |
+            Reserved for future use. Returning `success: true` is sufficient.
+
+    GetDriverDetailsRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          description: |
+            Single operation used by Ticketz to populate the driver cache.
+            The endpoint must return the dynamic fields, supported modes and
+            supported operations in one response.
+
+    GetSubscriptionStatusRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - subscriptionId
+          properties:
+            subscriptionId:
+              type: string
+              description: Subscription identifier stored on the company and invoice.
+          description: |
+            Called daily by the reconciliation job for every company that has
+            an active external subscription. The endpoint should query the
+            provider and return the current subscription status.
+
+    GetSubscriptionStatusResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              $ref: "#/components/schemas/SubscriptionStatus"
+      description: |
+        Returns the current status of the subscription. `inactive` or
+        `canceled` tells Ticketz that the company subscription is no longer
+        active and invoice generation should fall back to the regular billing
+        cycle.
+
+    GetDriverDetailsResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          required:
+            - fields
+            - modes
+            - operations
+          properties:
+            fields:
+              type: array
+              items:
+                $ref: "#/components/schemas/IntegrationOptionsField"
+              description: |
+                Additional configuration fields the endpoint needs. Field
+                names must not include the `_external` prefix.
+            modes:
+              type: array
+              items:
+                $ref: "#/components/schemas/Mode"
+              description: |
+                Payment modalities supported by the endpoint. The final list
+                shown in the checkout is the intersection of these modes and
+                the modes not disabled via `_externalDisable*` settings.
+            operations:
+              type: array
+              items:
+                $ref: "#/components/schemas/Operation"
+              description: |
+                RPC operations implemented by the endpoint. When this array
+                contains `createSubscription`, Ticketz reports that the
+                external driver supports recurring subscriptions. When it
+                contains `getSubscriptionStatus`, the daily reconciliation
+                job will call the endpoint to verify active subscriptions.
+      description: |
+        Returns the dynamic fields, supported modes and supported operations
+        in a single response. Ticketz caches this data and reuses it until a
+        forced refresh is requested by a super user.
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          enum:
+            - false
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Invalid request payload or business validation failure
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: Missing or invalid authentication token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalError:
+      description: Unexpected error on the external endpoint
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
