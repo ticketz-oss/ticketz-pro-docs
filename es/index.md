@@ -34,6 +34,8 @@ La documentación de Ticketz PRO ahora está organizada como un sitio de GitHub 
 8. Lee [Driver de pago externo]({{ '/es/external-payment-driver/' | relative_url }}) para integrar cualquier proveedor de cobranza mediante el driver Genérico Externo.
 9. Lee [Driver de NFS-e externa]({{ '/es/external-nfse-driver/' | relative_url }}) para integrar proveedores municipales de NFS-e mediante un puente RPC externo.
 10. Lee [Campos de formulario dinámico]({{ '/es/dynamic-form-fields/' | relative_url }}) al construir un driver externo personalizado que declara campos de configuración.
+11. Consulta el [Checklist WABA]({{ '/es/waba-checklist/' | relative_url }}) antes de conectar un número a la API oficial de WhatsApp.
+12. Sigue la guía de [Onboarding WABA]({{ '/es/waba-onboarding-guide/' | relative_url }}) para completar el flujo del popover de Meta e iniciar la verificación de la empresa.
 
 ## Guías disponibles
 
@@ -93,6 +95,18 @@ La documentación de Ticketz PRO ahora está organizada como un sitio de GitHub 
   <section class="info-card">
     <h3><a href="{{ '/es/dynamic-form-fields/' | relative_url }}">Campos de formulario dinámico</a></h3>
     <p>Referencia del schema de campos usado por DynamicForm y por el array `fields` de los drivers externos.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/es/waba-checklist/' | relative_url }}">Checklist WABA</a></h3>
+    <p>Verifica los requisitos y documentos antes de conectar un número a la API oficial de WhatsApp.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/es/waba-onboarding-guide/' | relative_url }}">Onboarding WABA</a></h3>
+    <p>Sigue el flujo del popover de Meta para verificar el número e iniciar la verificación de la empresa.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/es/notificamehub-waba-guide/' | relative_url }}">Guía Notificamehub WABA</a></h3>
+    <p>Conecta un número a la API oficial de WhatsApp a través de Notificamehub.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/es/examples/' | relative_url }}">Archivos de ejemplo</a></h3>

@@ -34,6 +34,8 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
 8. Leia [Driver de pagamento externo]({{ '/pt-br/external-payment-driver/' | relative_url }}) para integrar qualquer provedor de cobrança usando o driver Genérico Externo.
 9. Leia [Driver de NFS-e externa]({{ '/pt-br/external-nfse-driver/' | relative_url }}) para integrar provedores municipais de NFS-e através de uma ponte RPC externa.
 10. Leia [Campos de formulário dinâmico]({{ '/pt-br/dynamic-form-fields/' | relative_url }}) ao construir um driver externo personalizado que declara campos de configuração.
+11. Consulte [Checklist WABA]({{ '/pt-br/waba-checklist/' | relative_url }}) antes de conectar um número à API oficial do WhatsApp.
+12. Siga o guia de [Onboarding WABA]({{ '/pt-br/waba-onboarding-guide/' | relative_url }}) para completar o fluxo do popover da Meta e iniciar a verificação da empresa.
 
 ## Guias disponíveis
 
@@ -93,6 +95,18 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
   <section class="info-card">
     <h3><a href="{{ '/pt-br/dynamic-form-fields/' | relative_url }}">Campos de formulário dinâmico</a></h3>
     <p>Referência do schema de campos usado pelo DynamicForm e pelo array `fields` dos drivers externos.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/waba-checklist/' | relative_url }}">Checklist WABA</a></h3>
+    <p>Verifique os requisitos e documentos antes de conectar um número à API oficial do WhatsApp.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/waba-onboarding-guide/' | relative_url }}">Onboarding WABA</a></h3>
+    <p>Siga o fluxo do popover da Meta para verificar o número e iniciar a verificação da empresa.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/notificamehub-waba-guide/' | relative_url }}">Guia Notificamehub WABA</a></h3>
+    <p>Conecte um número à API oficial do WhatsApp através da Notificamehub.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/pt-br/examples/' | relative_url }}">Arquivos de exemplo</a></h3>

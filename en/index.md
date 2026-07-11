@@ -34,6 +34,8 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
 8. Read [External payment driver]({{ '/en/external-payment-driver/' | relative_url }}) to integrate any billing provider through the Generic External driver.
 9. Read [External NFS-e driver]({{ '/en/external-nfse-driver/' | relative_url }}) to integrate municipal NFS-e providers through an external RPC bridge.
 10. Read [Dynamic form fields]({{ '/en/dynamic-form-fields/' | relative_url }}) when building a custom external driver that declares settings fields.
+11. Review the [WABA checklist]({{ '/en/waba-checklist/' | relative_url }}) before connecting a number to the official WhatsApp API.
+12. Follow the [WABA onboarding]({{ '/en/waba-onboarding-guide/' | relative_url }}) guide to complete the Meta popover flow and start company verification.
 
 ## Available guides
 
@@ -93,6 +95,18 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
   <section class="info-card">
     <h3><a href="{{ '/en/dynamic-form-fields/' | relative_url }}">Dynamic form fields</a></h3>
     <p>Reference the field schema used by DynamicForm and the external driver `fields` array.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/waba-checklist/' | relative_url }}">WABA checklist</a></h3>
+    <p>Check requirements and documents before connecting a number to the official WhatsApp API.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/waba-onboarding-guide/' | relative_url }}">WABA onboarding</a></h3>
+    <p>Follow the Meta popover flow to verify the number and start company verification.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/notificamehub-waba-guide/' | relative_url }}">Notificamehub WABA guide</a></h3>
+    <p>Connect a number to the official WhatsApp API through Notificamehub.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/en/examples/' | relative_url }}">Example files</a></h3>
