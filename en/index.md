@@ -31,7 +31,9 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
 5. Check [expansion variables]({{ '/en/expansion-variables/' | relative_url }}) to use placeholders in templates and automations.
 6. Go to [example files]({{ '/en/examples/' | relative_url }}) for ready-to-download JSON and `.env` templates.
 7. See [Server Cluster]({{ '/en/server-cluster/' | relative_url }}) for multi-node login routing and cluster setup.
-8. Read [Dynamic form fields]({{ '/en/dynamic-form-fields/' | relative_url }}) when building a custom external driver that declares settings fields.
+8. Read [External payment driver]({{ '/en/external-payment-driver/' | relative_url }}) to integrate any billing provider through the Generic External driver.
+9. Read [External NFS-e driver]({{ '/en/external-nfse-driver/' | relative_url }}) to integrate municipal NFS-e providers through an external RPC bridge.
+10. Read [Dynamic form fields]({{ '/en/dynamic-form-fields/' | relative_url }}) when building a custom external driver that declares settings fields.
 
 ## Available guides
 
@@ -79,6 +81,14 @@ Ticketz PRO documentation is now organized as a GitHub Pages site with dedicated
   <section class="info-card">
     <h3><a href="{{ '/en/whmcs/' | relative_url }}">WHMCS</a></h3>
     <p>Use WHMCS to drive subscription provisioning in Ticketz.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/external-payment-driver/' | relative_url }}">External payment driver</a></h3>
+    <p>Integrate any billing provider into Ticketz PRO with the Generic External driver RPC contract.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/en/external-nfse-driver/' | relative_url }}">External NFS-e driver</a></h3>
+    <p>Integrate any NFS-e provider into Ticketz PRO through an external RPC bridge.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/en/dynamic-form-fields/' | relative_url }}">Dynamic form fields</a></h3>

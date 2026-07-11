@@ -31,7 +31,9 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
 5. Confira [variáveis de expansão]({{ '/pt-br/expansion-variables/' | relative_url }}) para usar placeholders em templates e automações.
 6. Vá para [arquivos de exemplo]({{ '/pt-br/examples/' | relative_url }}) para baixar JSONs e templates `.env`.
 7. Veja [Server Cluster]({{ '/pt-br/server-cluster/' | relative_url }}) para configuração de cluster e roteamento de login entre nós.
-8. Leia [Campos de formulário dinâmico]({{ '/pt-br/dynamic-form-fields/' | relative_url }}) ao construir um driver externo personalizado que declara campos de configuração.
+8. Leia [Driver de pagamento externo]({{ '/pt-br/external-payment-driver/' | relative_url }}) para integrar qualquer provedor de cobrança usando o driver Genérico Externo.
+9. Leia [Driver de NFS-e externa]({{ '/pt-br/external-nfse-driver/' | relative_url }}) para integrar provedores municipais de NFS-e através de uma ponte RPC externa.
+10. Leia [Campos de formulário dinâmico]({{ '/pt-br/dynamic-form-fields/' | relative_url }}) ao construir um driver externo personalizado que declara campos de configuração.
 
 ## Guias disponíveis
 
@@ -79,6 +81,14 @@ A documentação do Ticketz PRO foi organizada em um site para GitHub Pages com 
   <section class="info-card">
     <h3><a href="{{ '/pt-br/whmcs/' | relative_url }}">WHMCS</a></h3>
     <p>Use o WHMCS para controlar assinatura e provisionamento no Ticketz.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/external-payment-driver/' | relative_url }}">Driver de pagamento externo</a></h3>
+    <p>Integre qualquer provedor de cobrança ao Ticketz PRO com o contrato RPC do driver Genérico Externo.</p>
+  </section>
+  <section class="info-card">
+    <h3><a href="{{ '/pt-br/external-nfse-driver/' | relative_url }}">Driver de NFS-e externa</a></h3>
+    <p>Integre qualquer provedor de NFS-e ao Ticketz PRO com o driver externo de NFS-e via ponte RPC.</p>
   </section>
   <section class="info-card">
     <h3><a href="{{ '/pt-br/dynamic-form-fields/' | relative_url }}">Campos de formulário dinâmico</a></h3>

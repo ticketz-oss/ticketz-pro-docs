@@ -38,7 +38,8 @@ es/                      Spanish content (Markdown)
 Each language folder mirrors the same set of pages: `index.md` (home),
 `overview.md`, `webchat.md`, `typebot-integration.md`, `expansion-variables.md`,
 `integration-triggers.md`, `typebot-setup.md`, `backblaze.md`, `quickpix.md`,
-`server-cluster.md`, `sidekick.md`, `whmcs.md`, `examples.md`.
+`server-cluster.md`, `sidekick.md`, `whmcs.md`, `external-payment-driver.md`,
+`external-nfse-driver.md`, `dynamic-form-fields.md`, `examples.md`.
 
 ## Front matter conventions
 
@@ -59,7 +60,7 @@ description: Short SEO blurb  # Falls back to site.description
 
 ## Editing rules
 
-### 1. Keep all three languages in sync
+### 1. Keep all three languages and its indexes in sync
 
 A documentation change is **not complete** until it is applied to `en/`,
 `pt-br/`, and `es/`. Do not edit one language alone unless explicitly asked.
@@ -68,6 +69,7 @@ A documentation change is **not complete** until it is applied to `en/`,
   warnings between language versions.
 - Preserve the same heading structure and ordering across translations so the
   sidebar and language switcher stay consistent.
+- New documentation pages should always be inserted on index page
 
 ### 2. Navigation lives in the layout, not in pages
 
