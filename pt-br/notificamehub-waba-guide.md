@@ -7,6 +7,8 @@ description: Passo a passo para conectar um número à API oficial do WhatsApp B
 
 Este guia descreve como conectar um número à API oficial do WhatsApp Business (WABA) usando a Notificamehub como intermediária dentro do Ticketz PRO.
 
+> Para obter canais Notificamehub com desconto, [entre em contato com a equipe de desenvolvedores do Ticketz PRO pelo Whatsapp](https://wa.me/5549999812291?text=Quero+conectar+o+Ticketz+PRO+pela+notificamehub).
+
 > Antes de iniciar, confira a [Checklist WABA]({{ '/pt-br/waba-checklist/' | relative_url }}). Todos os requisitos devem estar ok para evitar bloqueios durante o onboarding da Meta. Para um passo a passo genérico do fluxo do popover da Meta, veja o [Guia de onboarding WABA]({{ '/pt-br/waba-onboarding-guide/' | relative_url }}).
 
 ## Criar a conexão do canal
