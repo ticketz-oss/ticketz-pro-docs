@@ -63,6 +63,7 @@ a {
   background: rgba(18, 32, 51, 0.9);
   color: #f8fafc;
   backdrop-filter: blur(16px);
+  overflow-y: auto;
 }
 
 .brand {
