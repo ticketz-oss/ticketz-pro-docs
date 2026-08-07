@@ -22,6 +22,7 @@ Los mensajes usan la siguiente estructura:
 - `type` puede ser `text`, `image`, `video`, `audio`, `gif` o `document`.
 - `content` se usa en mensajes de texto.
 - `mediaUrl` se usa para medios no textuales.
+- `expandMustaches` (opcional, booleano) — cuando es `true`, el `content` de un mensaje de texto es procesado por el helper de mustache antes de enviarse, permitiendo interpolar campos del ticket (por ejemplo `Hola, {{contact.name}}`).
 
 ## Formas de enviar comandos
 
@@ -221,6 +222,22 @@ Hace que Ticketz responda automáticamente con `pong`, lo que ayuda a preservar 
 ```json
 {
   "action": "ping"
+}
+```
+
+### Enviar una solicitud a un webhook externo
+
+Envía una solicitud `POST` a la `url` indicada con los datos actuales del ticket (la misma salida producida por `ShowTicketService`) como cuerpo JSON. La respuesta se interpreta como comandos y se procesa de forma anidada, por lo que el webhook puede responder con cualquiera de los comandos documentados aquí.
+
+- `timeout` (opcional, número) — tiempo de espera en segundos. El valor predeterminado es `5`.
+- Los errores al llamar al webhook se registran, pero no interrumpen la ejecución.
+- Se permite un `postRequest` anidado dentro de la respuesta, pero su propia respuesta no se procesará. Esto limita la recursión a un nivel, evitando cadenas infinitas de webhooks llamándose entre sí.
+
+```json
+{
+  "action": "postRequest",
+  "url": "https://example.com/hook",
+  "timeout": 10
 }
 ```
 

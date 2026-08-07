@@ -22,6 +22,7 @@ Messages use this structure:
 - `type` can be `text`, `image`, `video`, `audio`, `gif`, or `document`.
 - `content` is used for text messages.
 - `mediaUrl` is used for non-text media.
+- `expandMustaches` (optional, boolean) — when `true`, the `content` of a text message is processed by the mustache helper before being sent, so ticket fields can be interpolated (for example `Hello, {{contact.name}}`).
 
 ## Ways to send commands
 
@@ -221,6 +222,22 @@ Forces Ticketz to answer automatically with `pong`, which can help preserve orde
 ```json
 {
   "action": "ping"
+}
+```
+
+### Post a request to an external webhook
+
+Sends a `POST` request to the given `url` with the current ticket data (the same output produced by `ShowTicketService`) as the JSON body. The response is interpreted as commands and processed in a nested way, so the webhook can reply with any of the commands documented here.
+
+- `timeout` (optional, number) — timeout in seconds. Defaults to `5`.
+- Errors calling the webhook are logged but do not interrupt the execution.
+- A nested `postRequest` inside the response is allowed, but its own response will not be processed. This caps the recursion at one level, preventing unbounded chains of webhooks calling each other.
+
+```json
+{
+  "action": "postRequest",
+  "url": "https://example.com/hook",
+  "timeout": 10
 }
 ```
 
